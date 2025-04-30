@@ -1,0 +1,91 @@
+:root {
+    font-size: 16px;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+input[type="text"] {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    width: 100%;
+    color: #333;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+button {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #388E3C;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
+}
+
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.result-section {
+    flex: 1;
+    min-width: 600px;
+}
+
+code {
+    white-space: pre-wrap;
+    display: block;
+    background-color: #f5f5f5;
+    padding: 0.625rem;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    font-size: 0.9rem;
+}

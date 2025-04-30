@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>All Status Pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+<header class="mb-6 text-center">
+    <h1 class="text-3xl font-bold text-gray-800">All Status Pages</h1>
+    <p class="text-gray-600 mt-2">Quickly check the status of important services all at once</p>
+</header>
+
+<main class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <div class="bg-white shadow rounded-2xl p-4 h-96">
+        <h2 class="text-lg font-semibold mb-2">Cloudflare</h2>
+        <iframe class="w-full h-80 rounded-md" loading="lazy" src="https://www.cloudflarestatus.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4 h-96 overflow-y-auto" id="aws-card">
+        <h2 class="text-lg font-semibold mb-2">AWS</h2>
+        <div class="text-sm text-gray-600" id="aws-fallback">
+            <p>🔗 <a class="text-blue-600 underline" href="https://health.aws.amazon.com/health/status" target="_blank">View
+                Status Page</a></p>
+            <p class="mt-2">⚠️ Embedding is not allowed by AWS because fuck you</p>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4">
+        <h2 class="text-lg font-semibold mb-2">Google Cloud</h2>
+        <iframe class="w-full h-96 rounded-md" loading="lazy" src="https://status.cloud.google.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4">
+        <h2 class="text-lg font-semibold mb-2">Azure</h2>
+        <iframe class="w-full h-96 rounded-md" loading="lazy" src="https://status.azure.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4">
+        <h2 class="text-lg font-semibold mb-2">GitHub</h2>
+        <iframe class="w-full h-96 rounded-md" loading="lazy" src="https://www.githubstatus.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4">
+        <h2 class="text-lg font-semibold mb-2">Netlify</h2>
+        <iframe class="w-full h-96 rounded-md" loading="lazy" src="https://www.netlifystatus.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4 h-96">
+        <h2 class="text-lg font-semibold mb-2">Discord</h2>
+        <iframe class="w-full h-80 rounded-md" loading="lazy" src="https://discordstatus.com"></iframe>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4 h-96 overflow-y-auto" id="hashi-card">
+        <h2 class="text-lg font-semibold mb-2">HashiCorp</h2>
+        <div class="text-sm text-gray-600" id="hashi-fallback">
+            <p>🔗 <a class="text-blue-600 underline" href="https://status.hashicorp.com/" target="_blank">View Status
+                Page</a></p>
+            <p class="mt-2">⚠️ Embedding is not allowed by HashiCorp because fuck you</p>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4 h-96 overflow-y-auto" id="ovh-card">
+        <h2 class="text-lg font-semibold mb-2">OVH</h2>
+        <div class="text-sm text-gray-600" id="ovh-fallback">
+            <p>🔗 <b>SEVEN</b> distinct pages: <a class="text-blue-600 underline"
+                                                 href="https://web-cloud.status-ovhcloud.com/history.rss"
+                                                 target="_blank">[Web Cloud]</a>
+                <a class="text-blue-600 underline" href="https://public-cloud.status-ovhcloud.com/history.rss"
+                   target="_blank">[Public Cloud]</a>
+                <a class="text-blue-600 underline" href="https://hosted-private-cloud.status-ovhcloud.com/history.rss"
+                   target="_blank">[Hosted Private Cloud]</a>
+                <a class="text-blue-600 underline" href="https://bare-metal-servers.status-ovhcloud.com/history.rss"
+                   target="_blank">[Bare Metal]</a>
+                <a class="text-blue-600 underline" href="https://network.status-ovhcloud.com/history.rss"
+                   target="_blank">[Network]</a>
+                <a class="text-blue-600 underline" href="https://customer-service.status-ovhcloud.com/history.rss"
+                   target="_blank">[Customer Service]</a>
+                <a class="text-blue-600 underline" href="https://status.us.ovhcloud.com/"
+                   target="_blank">[US - not shown here]</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-4">
+        <h2 class="text-lg font-semibold mb-2">Other</h2>
+        <div class="text-sm text-gray-600">
+            <p class="mb-2">ℹ️ Also worth checking:</p>
+            <p>🔗 <a class="text-blue-600 underline" href="https://downdetector.com"
+                    target="_blank">Downdetector.com </a>
+                - user reports, only popular services
+            </p>
+            <p>🔗 <a class="text-blue-600 underline" href="https://www.isitdownrightnow.com/" target="_blank">IsItDownRightNow </a>-
+                works with any site, although false positives are common
+            </p>
+            <p>🔗 <a class="text-blue-600 underline" href="https://check-host.net/check-http"
+                    target="_blank">Check-Host </a>- HTTP statuses, many source IPs to test from</p>
+            <p>🔗 <a class="text-blue-600 underline" href="https://netblocks.org/"
+                    target="_blank">NetBlocks </a>- helpful in more global outages</p>
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-center mt-10 text-sm text-gray-500">
+    <a class="text-blue-600 underline" href="/">Cut The Bullshit</a>
+</footer>
+
+</body>
+</html>

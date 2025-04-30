@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Universal WHOIS and RDAP</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="parser.js"></script>
+</head>
+
+<body>
+<h1>Universal WHOIS and RDAP</h1>
+<p>Enter a domain to query WHOIS and RDAP information. WHOIS is asked via whois.azurewebsites.net (if it can
+    figure the shit out on its own). Unofficial (but ICANN related) RDAP.org is also asked.</p>
+<p>Different info can be provided by both of these services. Usually WHOIS spills more private data, but is not always
+    available. Yes, it's a clusterfuck of sadness. Read carefully.</p>
+<div class="input-group">
+    <label for="domain">Enter the domain:</label>
+    <input id="domain" placeholder="cutthebullsh.it" type="text">
+</div>
+<div class="input-group">
+    <label for="tld">Detected TLD: (wrong? correct it here!)</label>
+    <input id="tld" placeholder="it" type="text">
+</div>
+
+<button id="submit" onclick="justDoIt();">GEEEEEEEEET</button>
+
+<div class="results-container">
+    <div class="result-section">
+        <p>RDAP Results:
+            <button id="toggleRdap">Toggle Raw/Parsed</button>
+        </p>
+        <code id="rdapResults"></code>
+        <code id="rdapRaw" style="display: none"></code>
+    </div>
+
+    <div class="result-section">
+        <p>Using WHOIS server: <b><span id="whoisServer">none</span></b></p>
+        <p>WHOIS Results:</p>
+        <code id="results"></code>
+    </div>
+</div>
+
+<footer style="margin-top: 20px; text-align: center; color: #555;">
+    <a href="/">Cut The Bullshit</a>
+</footer>
+
+<script>
+    const domain = document.getElementById("domain");
+    const logs = document.getElementById("results");
+    const rdapResults = document.getElementById("rdapResults");
+    const rdapRaw = document.getElementById("rdapRaw");
+    const toggleRdapButton = document.getElementById("toggleRdap");
+    const tldfield = document.getElementById("tld");
+    const whoisServerField = document.getElementById("whoisServer");
+    const calculateTLD = () => {
+        const hostname = new URL(`https://${domain.value}`).hostname;
+        const parts = hostname.split('.');
+        parts.shift();
+        tldfield.value = parts.join('.');
+        logs.innerText = "";
+        rdapResults.innerText = "";
+        whoisServerField.innerText = "none";
+    };
+    domain.addEventListener("input", calculateTLD);
+    domain.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            justDoIt();
+        }
+    });
+
+    const justDoIt = async () => {
+        let whoisServer = "";
+        logs.innerText = "";
+        rdapResults.innerText = "";
+        try {
+            const doh = await fetch(`https://cloudflare-dns.com/dns-query?name=${tldfield.value}.whois-servers.net&type=CNAME`, {headers: {"accept": "application/dns-json"}});
+            if (doh.ok) {
+                const parsed = await doh.json();
+                whoisServer = parsed?.Answer?.[0]?.data?.slice(0, -1); //remove trailing dot
+                whoisServerField.innerText = whoisServer ?? "let whois.azurewebsites.net decide: ";
+            } else whoisServerField.innerText = `Failed: ${doh.status} ${doh.statusText}`;
+
+        } catch (e) {
+            console.error(e);
+            alert("doh: " + e.toString());
+        }
+
+        const hostname = new URL(`https://${domain.value}`).hostname;
+        try {
+            const whois = await fetch(`https://whois.azurewebsites.net/api/whois/${hostname}?server=${whoisServer || ""}&encoding=utf-8`);
+            if (whois.ok) {
+                const parsed = await whois.json();
+                logs.innerText = parsed.Raw;
+                if (!whoisServer) document.getElementById("whoisServer").innerText += (" " + (parsed?.RespondedServers?.join(" -> ") || "failed!"));
+            }
+        } catch (e) {
+            console.error(e);
+            alert("whois: " + e.toString());
+        }
+
+        try {
+            const rdap = await fetch(`https://rdap.org/domain/${hostname}`);
+            if (rdap.ok) {
+                const parsed = await rdap.json();
+                rdapResults.innerText = parseRdapDomain(parsed);
+                rdapRaw.innerText = JSON.stringify(parsed, null, 2);
+            } else {
+                const t = `RDAP.org responded with ${rdap.status} ${rdap.statusText}`;
+                rdapRaw.innerText = t;
+                rdapResults.innerText = t;
+            }
+        } catch (e) {
+            console.error(e);
+            alert("rdap: " + e.toString());
+        }
+
+    };
+
+    toggleRdapButton.addEventListener("click", () => {
+        if (rdapResults.style.display === "none") {
+            rdapResults.style.display = "block";
+            rdapRaw.style.display = "none";
+        } else {
+            rdapResults.style.display = "none";
+            rdapRaw.style.display = "block";
+        }
+    });
+</script>
+</body>
+</html>
